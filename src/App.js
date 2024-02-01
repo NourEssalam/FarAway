@@ -6,7 +6,7 @@ function App() {
     document.title = "Your New Page Title";
   }, []);
   return (
-    <div>
+    <div className="app">
       <Logo />
       <Form />
       <PackingList />
