@@ -1,16 +1,6 @@
 import "./index.css";
 import React, { useEffect, useState } from "react";
 
-const initialItems = [
-  {
-    id: 1,
-    description: "Passports",
-    quantity: 2,
-    packed: false,
-  },
-  { id: 2, description: "Socks", quantity: 12, packed: false },
-];
-
 function App() {
   useEffect(() => {
     document.title = "Your New Page Title";
@@ -27,7 +17,7 @@ function App() {
     <div className="app">
       <Logo />
       <Form onAddItems={handleAddItems} />
-      <PackingList items={items} />
+      <PackingList items={items} setItems={setItems} />
       <Stats />
     </div>
   );
@@ -80,25 +70,28 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items }) {
+function PackingList({ items, setItems }) {
+  function handleDeleteItems(id) {
+    setItems(items.filter((item) => item.id !== id));
+  }
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} />
+          <Item item={item} key={item.id} onDelete={handleDeleteItems} />
         ))}
       </ul>
     </div>
   );
 }
 
-function Item({ item }) {
+function Item({ item, onDelete }) {
   return (
     <li>
       <span>
         {item.quantity} {item.description}
       </span>
-      <button>❌</button>
+      <button onClick={() => onDelete(item.id)}>❌</button>
     </li>
   );
 }
