@@ -13,11 +13,15 @@ function App() {
     setItems((items) => [...items, itemObj]);
   }
 
+  function handleDeleteItems(id) {
+    setItems(items.filter((item) => item.id !== id));
+  }
+
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={handleAddItems} />
-      <PackingList items={items} setItems={setItems} />
+      <PackingList items={items} onDeleteItem={handleDeleteItems} />
       <Stats />
     </div>
   );
@@ -70,15 +74,12 @@ function Form({ onAddItems }) {
   );
 }
 
-function PackingList({ items, setItems }) {
-  function handleDeleteItems(id) {
-    setItems(items.filter((item) => item.id !== id));
-  }
+function PackingList({ items, onDeleteItem }) {
   return (
     <div className="list">
       <ul>
         {items.map((item) => (
-          <Item item={item} key={item.id} onDelete={handleDeleteItems} />
+          <Item item={item} key={item.id} onDelete={onDeleteItem} />
         ))}
       </ul>
     </div>
